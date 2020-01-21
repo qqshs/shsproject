@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.bytter</groupId>
+  <artifactId>shs_parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>gateway</module>
+    <!--<module>eureka</module>
+    <module>logUtil</module>
+    <module>framework</module>-->
+
+  </modules>
+
+  <name>shs_parent</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <log4j2.version>2.12.1</log4j2.version>
+    <slf4j.version>1.7.28</slf4j.version>
+    <jdk.version>1.8</jdk.version>
+    <springCloud.version>Greenwich.SR3</springCloud.version>
+    <springBoot.version>2.1.8.RELEASE</springBoot.version>
+    <oracle.ojdbc.version>11g</oracle.ojdbc.version>
+      <druid.version>1.1.12</druid.version>
+      <hibernate.version>5.4.4.Final</hibernate.version>
+      <commons-lang3.version>3.9</commons-lang3.version>
+      <commons-beanutils.version>1.9.4</commons-beanutils.version>
+      <gson.version>2.8.5</gson.version>
+      <guava.version>28.1-jre</guava.version>
+      <poi.version>4.1.0</poi.version>
+      <lombok.version>1.18.10</lombok.version>
+      <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
+      <logstash-logback-encoder.version>6.2</logstash-logback-encoder.version>
+      <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+      <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+      <spring-cloud-zuul-ratelimit.version>2.0.6.RELEASE</spring-cloud-zuul-ratelimit.version>
+      <commons-pool2.version>2.7.0</commons-pool2.version>
+      <commons-codec.version>1.13</commons-codec.version>
+      <jjwt.version>0.10.7</jjwt.version>
+      <apollo.version>1.5.1</apollo.version>
+      <micrometer-registry-prometheus.version>1.1.4</micrometer-registry-prometheus.version>
+  </properties>
+  <repositories>
+  	<repository>
+        <id>aliyun</id>
+        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    </repository>
+  </repositories>
+  
+  <pluginRepositories>
+      <pluginRepository>
+          <id>aliyun</id>
+          <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+      </pluginRepository>
+      
+  </pluginRepositories>
+
+  <dependencies>
+  <!-- 公用依赖 -->
+    
+    
+  </dependencies>
+  <dependencyManagement>
+  <!-- 子模块可选依赖 -->
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-dependencies</artifactId>
+			<version>${springCloud.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-dependencies</artifactId>
+			<version>${springBoot.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>${log4j2.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>${log4j2.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>${log4j2.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>${slf4j.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.bytter</groupId>
+			<artifactId>logUtil</artifactId>
+			<version>1.0.0</version>
+	    </dependency>
+	    <dependency>
+			<groupId>com.bytter</groupId>
+			<artifactId>framework</artifactId>
+			<version>1.0.0</version>
+	    </dependency>
+	    <dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>${oracle.ojdbc.version}</version>
+		</dependency>
+		
+	<dependency>
+	    <groupId>com.alibaba</groupId>
+	    <artifactId>druid</artifactId>
+	    <version>${druid.version}</version>
+	</dependency>
+
+	<dependency>
+	  <groupId>org.hibernate</groupId>
+	  <artifactId>hibernate-agroal</artifactId>
+	  <version>${hibernate.version}</version>
+	  
+	</dependency>
+	<dependency>
+	  <groupId>org.hibernate</groupId>
+	  <artifactId>hibernate-core</artifactId>
+	  <version>${hibernate.version}</version>
+	</dependency>
+
+	<dependency>
+	  <groupId>org.hibernate</groupId>
+	  <artifactId>hibernate-java8</artifactId>
+	  <version>${hibernate.version}</version>
+	</dependency>
+
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-lang3</artifactId>
+	    <version>${commons-lang3.version}</version>
+	</dependency>
+
+	<dependency>
+         <groupId>commons-beanutils</groupId>
+         <artifactId>commons-beanutils</artifactId>
+         <version>${commons-beanutils.version}</version>
+         <exclusions>
+             <exclusion>
+                 <groupId>commons-logging</groupId>
+                 <artifactId>commons-logging</artifactId>
+             </exclusion>
+             <exclusion>
+                 <artifactId>commons-collections</artifactId>
+                 <groupId>commons-collections</groupId>
+             </exclusion>
+         </exclusions>
+     </dependency>
+     
+     	<dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-pool2</artifactId>
+		  <version>${commons-pool2.version}</version>
+		</dependency>
+		
+		<dependency>
+	    	<groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    <version>${commons-codec.version}</version>
+		</dependency>
+        
+     <dependency>
+  		<groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>${gson.version}</version>
+	 </dependency>
+	 
+	 <dependency>
+         <groupId>com.google.guava</groupId>
+         <artifactId>guava</artifactId>
+         <version>${guava.version}</version>
+     </dependency>
+
+	 <dependency>
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi</artifactId>
+         <version>${poi.version}</version>
+         <exclusions>
+             <exclusion>
+                 <artifactId>commons-codec</artifactId>
+                 <groupId>commons-codec</groupId>
+             </exclusion>
+         </exclusions>
+     </dependency>
+     
+     <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi-ooxml-schemas</artifactId>
+          <version>${poi.version}</version>
+      </dependency>
+     
+     <dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>${lombok.version}</version>
+		<scope>provided</scope>
+	 </dependency>
+	 
+	 <dependency>
+      <groupId>com.github.danielwegener</groupId>
+      <artifactId>logback-kafka-appender</artifactId>
+      <version>${logback-kafka-appender.version}</version>
+    </dependency>
+    
+    <dependency>
+		<groupId>net.logstash.logback</groupId>
+		<artifactId>logstash-logback-encoder</artifactId>
+		<version>${logstash-logback-encoder.version}</version>
+	</dependency>
+        <dependency>
+            <groupId>com.marcosbarbero.cloud</groupId>
+            <artifactId>spring-cloud-zuul-ratelimit</artifactId>
+            <version>${spring-cloud-zuul-ratelimit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ctrip.framework.apollo</groupId>
+            <artifactId>apollo-client</artifactId>
+            <version>${apollo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer-registry-prometheus.version}</version>
+        </dependency>
+	</dependencies>
+  </dependencyManagement>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+          <configuration>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
+            </configuration>
+      </plugin>
+
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+            <configuration>
+              <skipTests>true</skipTests>    <!--默认关掉单元测试 -->
+            </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+</project>
