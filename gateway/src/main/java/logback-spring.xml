@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <conversionRule conversionWord="ip" converterClass="com.bytter.framework.log.MyLogConfig" />
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+  	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>info</level>
+    </filter>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+        <pattern>[%ip] %d{yyyy-MM-dd HH:mm:ss.SSS} [%level]-[%thread]-[%c]-%m%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="stash" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>info</level>
+    </filter>
+    <file>/usr/local/zuul/file.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/usr/local/zuul/file.log.%d{yyyy-MM-dd}</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+  </appender>
+  
+  <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	      <level>info</level>
+	    </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%ip] %d{yyyy-MM-dd HH:mm:ss.SSS} [%level]-[%thread]-[%c]-%m%n</pattern>
+        </encoder>
+        <topic>applog</topic>
+        <!-- we don't care how the log messages will be partitioned  -->
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy" />
+
+        <!-- use async delivery. the application threads are not blocked by logging -->
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" />
+
+        <!-- each <producerConfig> translates to regular kafka-client config (format: key=value) -->
+        <!-- producer configs are documented here: https://kafka.apache.org/documentation.html#newproducerconfigs -->
+        <!-- bootstrap.servers is the only mandatory producerConfig -->
+        <producerConfig>bootstrap.servers=192.168.0.78:9092</producerConfig>
+        <!-- don't wait for a broker to ack the reception of a batch.  -->
+        <producerConfig>acks=0</producerConfig>
+        <!-- wait up to 1000ms and collect log messages before sending them as a batch -->
+        <producerConfig>linger.ms=1000</producerConfig>
+        <!-- even if the producer buffer runs full, do not block the application but start to drop messages -->
+        <producerConfig>max.block.ms=0</producerConfig>
+        <!-- define a client-id that you use to identify yourself against the kafka broker -->
+        <producerConfig>client.id=${HOSTNAME}-${CONTEXT_NAME}-logback-relaxed</producerConfig>
+
+    </appender>
+  
+  <root level="all">
+    <appender-ref ref="stash" />
+    <appender-ref ref="STDOUT" />
+    <!--<appender-ref ref="kafkaAppender" />-->
+  </root>
+</configuration>

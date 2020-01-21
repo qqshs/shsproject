@@ -1,0 +1,164 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.bytter</groupId>
+  <artifactId>gateway</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  <name>gateway</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	  <docker.image.prefix>byttergateway</docker.image.prefix>
+  </properties>
+
+  <parent>
+      <artifactId>shs_parent</artifactId>
+      <groupId>com.bytter</groupId>
+      <version>1.0.0</version>
+      <relativePath>../pom.xml</relativePath>
+  </parent>
+  <dependencies>
+   
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.springframework.cloud</groupId>
+	  <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+	</dependency>
+	
+	<dependency>
+      <groupId>com.github.danielwegener</groupId>
+      <artifactId>logback-kafka-appender</artifactId>
+      
+    </dependency>
+    
+    <dependency>
+		<groupId>net.logstash.logback</groupId>
+		<artifactId>logstash-logback-encoder</artifactId>
+		
+	</dependency>
+
+	 <dependency>
+		  <groupId>com.marcosbarbero.cloud</groupId>
+		  <artifactId>spring-cloud-zuul-ratelimit</artifactId>
+	  </dependency>
+	  
+	  	<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-pool2</artifactId>
+		</dependency>
+		
+		<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-actuator</artifactId>
+	</dependency>
+
+	<dependency>
+		<groupId>io.micrometer</groupId>
+		<artifactId>micrometer-registry-prometheus</artifactId>
+		<version>1.1.4</version>
+	</dependency>
+
+	  <dependency>
+		  <groupId>io.prometheus</groupId>
+		  <artifactId>simpleclient_spring_boot</artifactId>
+		  <version>0.8.0</version>
+	  </dependency>
+	
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-devtools</artifactId>
+		<optional>true</optional>
+	</dependency>
+	
+	<dependency>
+  		<groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	 </dependency>
+	 
+	 <dependency>
+         <groupId>com.google.guava</groupId>
+         <artifactId>guava</artifactId>
+     </dependency>
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <scope>provided</scope>
+      </dependency>
+
+	  <dependency>
+		  <groupId>com.ctrip.framework.apollo</groupId>
+		  <artifactId>apollo-client</artifactId>
+	  </dependency>
+
+	  <dependency>
+		  <groupId>org.springframework.cloud</groupId>
+		  <artifactId>spring-cloud-starter-openfeign</artifactId>
+	  </dependency>
+
+  </dependencies>
+  
+  <build>
+  
+  		<resources>   
+            <resource>  
+                <directory>src/main/java</directory>  
+                <includes>  
+                    <include>**/**</include>  
+                </includes>  
+                <filtering>false</filtering>  
+            </resource>  
+        </resources>  
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+	              <execution>
+	                <goals>
+	                  <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+	                </goals>
+	              </execution>
+		        </executions>
+			</plugin>
+
+			<!--使用此maven插件来执行mvn package docker:build-->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<!--<version>1.0.0</version>-->
+				<configuration>
+					<imageName>${docker.image.prefix}.${project.artifactId}</imageName>
+					<dockerDirectory>src/main/resources</dockerDirectory>
+					<dockerHost>http://localhost:2375</dockerHost>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+
+	</build>
+</project>
